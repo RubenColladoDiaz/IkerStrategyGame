@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
 
     public float velocidadMovimiento;
     private float velocidadInicial;
     public Vector2 direccionMovimiento;
+    public AudioClip walkSound;
+    public AudioClip runSound;
 
     private Rigidbody2D rb;
+    public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
+
         velocidadInicial = velocidadMovimiento;
     }
 
@@ -28,6 +33,12 @@ public class PlayerMovement : MonoBehaviour
         {
 
             velocidadMovimiento = velocidadInicial * 2;
+            if (direccionMovimiento.x != 0 || direccionMovimiento.y != 0)
+            {
+                audioSource.clip = runSound;
+                audioSource.Play();
+                Debug.Log("Suena correr");
+            }
 
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -35,6 +46,17 @@ public class PlayerMovement : MonoBehaviour
 
             velocidadMovimiento = velocidadInicial;
 
+        }
+        else if (direccionMovimiento.x != 0 || direccionMovimiento.y != 0)
+        {
+            audioSource.clip = walkSound;
+            audioSource.Play();
+            Debug.Log("Suena caminar");
+        }
+        else
+        {
+            audioSource.Stop();
+            Debug.Log("Para sonido");
         }
 
     }
