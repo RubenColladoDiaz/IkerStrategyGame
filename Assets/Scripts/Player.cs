@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public AudioClip runSound;
 
     private Rigidbody2D rb;
-    public AudioSource audioSource;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         {
 
             velocidadMovimiento = velocidadInicial * 2;
-            if (direccionMovimiento.x != 0 || direccionMovimiento.y != 0)
+            if (velocidadMovimiento == velocidadInicial * 2)
             {
                 audioSource.clip = runSound;
                 audioSource.Play();
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
             velocidadMovimiento = velocidadInicial;
 
         }
-        else if (direccionMovimiento.x != 0 || direccionMovimiento.y != 0)
+        else if ((direccionMovimiento.x != 0 || direccionMovimiento.y != 0) && velocidadMovimiento != velocidadInicial * 2)
         {
             audioSource.clip = walkSound;
             audioSource.Play();
