@@ -13,12 +13,14 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
     private AudioSource audioSource;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
 
         velocidadInicial = velocidadMovimiento;
     }
@@ -28,6 +30,15 @@ public class Player : MonoBehaviour
     {
 
         direccionMovimiento = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized; // Esto son valores de -1 a 1
+
+        if (Input.GetAxisRaw("Horizontal") < 0.0f)
+        {
+            transform.localScale = new Vector3(-3.0f, 3.0f, 1.0f);
+        }
+        else if (Input.GetAxisRaw("Horizontal") > 0.0f)
+        {
+            transform.localScale = new Vector3(3.0f, 3.0f, 1.0f);
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -57,6 +68,15 @@ public class Player : MonoBehaviour
         {
             audioSource.Stop();
             Debug.Log("Para sonido");
+        }
+
+        if (direccionMovimiento.x != 0 || direccionMovimiento.y != 0)
+        {
+            animator.SetBool("running", true);
+        }
+        else
+        {
+            animator.SetBool("running", false);
         }
 
     }
