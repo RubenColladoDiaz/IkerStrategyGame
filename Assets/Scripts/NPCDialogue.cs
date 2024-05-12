@@ -5,12 +5,19 @@ using UnityEngine;
 
 public class NPCDialogue : MonoBehaviour
 {
+    [Header("Sounds")]
     public AudioClip npcVoice;
     public GameObject Talk;
+
+    [Header("Dialogues")]
     public GameObject dialoguePanel;
+    public GameObject dialogueOmitir;
+
+    //Tipo de texto 
     public TMP_Text dialogueText;
     [TextArea(4, 6)] public string[] dialogueLines;
 
+    //Variables privats
     private bool isPlayerinRange;
     private bool didDialogueStart;
     private int lineIndex;
@@ -30,6 +37,7 @@ public class NPCDialogue : MonoBehaviour
             if (!didDialogueStart)
             {
                 StartDialogue();
+                 dialogueOmitir.SetActive(true);
             }
             else if (dialogueText.text == dialogueLines[lineIndex])
             {
@@ -39,8 +47,18 @@ public class NPCDialogue : MonoBehaviour
             {
                 StopAllCoroutines();
                 dialogueText.text = dialogueLines[lineIndex];
+                
             }
         }
+         //Para omitir texto
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            Omitir();
+            TalkSound.Stop();
+            dialogueOmitir.SetActive(false);
+        }
+        
+
     }
 
     private void StartDialogue()
@@ -62,6 +80,7 @@ public class NPCDialogue : MonoBehaviour
         }
         else
         {
+            dialogueOmitir.SetActive(false);
             didDialogueStart = false;
             dialoguePanel.SetActive(false);
             Talk.SetActive(true);
@@ -101,6 +120,15 @@ public class NPCDialogue : MonoBehaviour
             Talk.SetActive(false);
         }
 
+    }
+     private void Omitir()
+    {
+            if(didDialogueStart)
+            {
+                //Salta al final del diálogo actual
+                lineIndex = dialogueLines.Length -1;
+                NextDialogueLine();
+            }
     }
 
 }
