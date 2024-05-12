@@ -10,7 +10,8 @@ public class SellerDialogue : MonoBehaviour
 
     [Header("Dialogues")]
     public GameObject dialoguePanel;
-     public GameObject dialogueOmitir;
+    public GameObject dialogueOmitir;
+    public GameObject oxygenPanel;
     public TMP_Text dialogueText;
     [TextArea(4, 6)] public string[] dialogueLines;
 
@@ -35,6 +36,7 @@ public class SellerDialogue : MonoBehaviour
             {
                 StartDialogue();
                 dialogueOmitir.SetActive(true);
+                oxygenPanel.SetActive(false);
             }
             else if (dialogueText.text == dialogueLines[lineIndex])
             {
@@ -52,6 +54,7 @@ public class SellerDialogue : MonoBehaviour
             Omitir();
             TalkSound.Stop();
             dialogueOmitir.SetActive(false);
+            oxygenPanel.SetActive(true);
         }
     }
 
@@ -59,6 +62,7 @@ public class SellerDialogue : MonoBehaviour
     {
         didDialogueStart = true;
         dialoguePanel.SetActive(true);
+        oxygenPanel.SetActive(false);
         lineIndex = 0;
         Time.timeScale = 0f;
         StartCoroutine(ShowLine());
@@ -76,6 +80,7 @@ public class SellerDialogue : MonoBehaviour
             dialogueOmitir.SetActive(false);
             didDialogueStart = false;
             dialoguePanel.SetActive(false);
+            oxygenPanel.SetActive(true);
             Time.timeScale = 1f;
         }
     }
