@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class SellerDialogue : MonoBehaviour
 {
+    [Header("Sounds")]
     public AudioClip npcVoice;
+
+    [Header("Dialogues")]
     public GameObject dialoguePanel;
+     public GameObject dialogueOmitir;
     public TMP_Text dialogueText;
     [TextArea(4, 6)] public string[] dialogueLines;
 
+    //Variables privats
     private bool isPlayerinRange;
     private bool didDialogueStart;
     private int lineIndex;
@@ -29,6 +34,7 @@ public class SellerDialogue : MonoBehaviour
             if (!didDialogueStart)
             {
                 StartDialogue();
+                dialogueOmitir.SetActive(true);
             }
             else if (dialogueText.text == dialogueLines[lineIndex])
             {
@@ -39,6 +45,13 @@ public class SellerDialogue : MonoBehaviour
                 StopAllCoroutines();
                 dialogueText.text = dialogueLines[lineIndex];
             }
+        }
+        //Para omitir texto
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            Omitir();
+            TalkSound.Stop();
+            dialogueOmitir.SetActive(false);
         }
     }
 
@@ -60,6 +73,7 @@ public class SellerDialogue : MonoBehaviour
         }
         else
         {
+            dialogueOmitir.SetActive(false);
             didDialogueStart = false;
             dialoguePanel.SetActive(false);
             Time.timeScale = 1f;
@@ -96,6 +110,16 @@ public class SellerDialogue : MonoBehaviour
             isPlayerinRange = false;
         }
 
+    }
+
+     private void Omitir()
+    {
+            if(didDialogueStart)
+            {
+                //Salta al final del diálogo actual
+                lineIndex = dialogueLines.Length -1;
+                NextDialogueLine();
+            }
     }
 
 }
