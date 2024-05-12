@@ -11,6 +11,7 @@ public class NPCDialogue : MonoBehaviour
 
     [Header("Dialogues")]
     public GameObject dialoguePanel;
+    public GameObject oxygenPanel;
     public GameObject dialogueOmitir;
 
     //Tipo de texto 
@@ -37,7 +38,8 @@ public class NPCDialogue : MonoBehaviour
             if (!didDialogueStart)
             {
                 StartDialogue();
-                 dialogueOmitir.SetActive(true);
+                dialogueOmitir.SetActive(true);
+                oxygenPanel.SetActive(false);
             }
             else if (dialogueText.text == dialogueLines[lineIndex])
             {
@@ -56,6 +58,7 @@ public class NPCDialogue : MonoBehaviour
             Omitir();
             TalkSound.Stop();
             dialogueOmitir.SetActive(false);
+            oxygenPanel.SetActive(true);
         }
         
 
@@ -65,6 +68,7 @@ public class NPCDialogue : MonoBehaviour
     {
         didDialogueStart = true;
         dialoguePanel.SetActive(true);
+        oxygenPanel.SetActive(false);
         Talk.SetActive(false);
         lineIndex = 0;
         Time.timeScale = 0f;
@@ -83,6 +87,7 @@ public class NPCDialogue : MonoBehaviour
             dialogueOmitir.SetActive(false);
             didDialogueStart = false;
             dialoguePanel.SetActive(false);
+            oxygenPanel.SetActive(true);
             Talk.SetActive(true);
             Time.timeScale = 1f;
         }
