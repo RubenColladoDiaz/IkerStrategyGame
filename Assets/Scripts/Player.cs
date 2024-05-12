@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
-    public float velocidadMovimiento;
+     [Header("velocity")]
+      public float velocidadMovimiento;
     private float velocidadInicial;
     public Vector2 direccionMovimiento;
+   
     public AudioClip walkSound;
     public AudioClip runSound;
 
     private Rigidbody2D rb;
+     [Header("Sounds")]
     private AudioSource audioSource;
     private Animator animator;
+
+    //EstoyCorriendo
+    private bool isRun;
+    //Estoy caminando
+    private bool isMove;
+
+  
 
     // Start is called before the first frame update
     void Start()
@@ -40,16 +49,10 @@ public class Player : MonoBehaviour
             transform.localScale = new Vector3(3.0f, 3.0f, 1.0f);
         }
 
+      
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-
             velocidadMovimiento = velocidadInicial * 2;
-            if (velocidadMovimiento == velocidadInicial * 2)
-            {
-                audioSource.clip = runSound;
-                audioSource.Play();
-                Debug.Log("Suena correr");
-            }
 
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -58,18 +61,43 @@ public class Player : MonoBehaviour
             velocidadMovimiento = velocidadInicial;
 
         }
-        else if ((direccionMovimiento.x != 0 || direccionMovimiento.y != 0) && velocidadMovimiento != velocidadInicial * 2)
+       
+        //Sonidos Caminar
+        if ((direccionMovimiento.x != 0 || direccionMovimiento.y != 0) && velocidadMovimiento != velocidadInicial * 2)
         {
-            audioSource.clip = walkSound;
-            audioSource.Play();
-            Debug.Log("Suena caminar");
-        }
-        else
-        {
-            audioSource.Stop();
-            Debug.Log("Para sonido");
-        }
+            if(isRun){
+                audioSource.Stop();
+            }
+            isMove=true;
+            isRun=false;
 
+             if(!audioSource.isPlaying && isMove){
+                audioSource.clip = walkSound;
+                audioSource.Play();
+                
+            }
+            
+        } else if ((direccionMovimiento.x != 0 || direccionMovimiento.y != 0 && velocidadMovimiento == velocidadInicial * 2))
+        {
+           
+            if(isMove){
+                
+                audioSource.Stop();
+               
+            }
+            isMove=false;
+            isRun=true;
+             if(!audioSource.isPlaying && isRun){
+                    audioSource.clip = runSound;
+                    audioSource.Play();
+                }
+        }else{
+            isMove=false;
+            isRun=false;
+            audioSource.Stop();
+           //Dani:Realmente esto de abajo es un experimiento que quiero comentar en grupo
+           //StartCoroutine(DetenerCaminarDespuesDeEspera());
+        }
         if (direccionMovimiento.x != 0 || direccionMovimiento.y != 0)
         {
             animator.SetBool("running", true);
@@ -84,7 +112,19 @@ public class Player : MonoBehaviour
     {
         rb.MovePosition(rb.position + direccionMovimiento * velocidadMovimiento * Time.fixedDeltaTime);
         // Mover el RigidBody2D del jugador en la direccion especificada a X velocidad y se multiplica por el tiempo
-        // para hacer que el movimiento sea independiente de la velocidad de fotogramas y suave incluso si la tasa de fotogramas fluct�a.
+        // para hacer que el movimiento sea independiente de la velocidad de fotogramas y suave incluso si la tasa de fotogramas fluct�a.
         // Esto ultimo es una frikada, se movia raro y un tio ha puesto eso en internet RAULLLLLLLLLL
     }
+
+    //Dani:Para que no suene raro al parar y seguir hare esta sigüiente función
+    IEnumerator DetenerCaminarDespuesDeEspera()
+    {
+        yield return new WaitForSeconds(0.2f);
+        audioSource.Stop();
+        //Debug.Log("Para sonido");
+    }
+
+   
+
+
 }
