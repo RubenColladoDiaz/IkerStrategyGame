@@ -122,7 +122,8 @@ public class Player : MonoBehaviour
              if(!audioSource.isPlaying && isRun){
                     audioSource.clip = runSound;
                     audioSource.Play();
-                }
+                audioSource.volume = 0.5f;
+            }
         }else{
             isMove=false;
             isRun=false;
