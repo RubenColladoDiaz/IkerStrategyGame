@@ -7,6 +7,7 @@ public class SellerDialogue : MonoBehaviour
 {
     [Header("Sounds")]
     public AudioClip npcVoice;
+    public AudioClip npcSound;
 
     [Header("Dialogues")]
     public GameObject dialoguePanel;
@@ -34,6 +35,7 @@ public class SellerDialogue : MonoBehaviour
         {
             if (!didDialogueStart)
             {
+                TalkSound.PlayOneShot(npcSound);
                 StartDialogue();
                 dialogueOmitir.SetActive(true);
                 oxygenPanel.SetActive(false);
