@@ -4,16 +4,8 @@ using UnityEngine;
 
 public class RandomMovementBunny : MonoBehaviour
 {
-    private Vector2[] posicionesRandom = new Vector2[]
-    {
-        new Vector2(-4.15f, -1.69f),
-        new Vector2(-6.39f, -0.96f),
-        new Vector2(-2.16f, -0.96f),
-        new Vector2(-2.78f, -2.99f),
-        new Vector2(-7.47f, -3.88f), // PUNTOS PROVISIONALES, HABRA QUE HACERLOS RANDOM DENTRO DE UN RANGO
-        new Vector2(-5.94f, -2.15f),
-        new Vector2(-4.15f, -1.69f)
-    };
+    public Vector2 minPosition = new Vector2(-8f, -5f);
+    public Vector2 maxPosition = new Vector2(8f, 5f);
 
     public float tiempoEspera = 5f;
 
@@ -26,14 +18,14 @@ public class RandomMovementBunny : MonoBehaviour
     {
         while (true)
         {
+            float randomX = Random.Range(minPosition.x, maxPosition.x);
+            float randomY = Random.Range(minPosition.y, maxPosition.y);
+            Vector2 randomPosition = new Vector2(randomX, randomY);
 
-            foreach (Vector2 position in posicionesRandom)
-            {
-                transform.position = position;
+            // Teleportar al objeto a la nueva posición aleatoria
+            transform.position = randomPosition;
 
-                yield return new WaitForSeconds(tiempoEspera);
-            }
-
+            yield return new WaitForSeconds(tiempoEspera);
         }
     }
 }
