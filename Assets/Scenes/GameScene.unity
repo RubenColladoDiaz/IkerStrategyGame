@@ -6281,8 +6281,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidadMovimiento: 5
   direccionMovimiento: {x: 0, y: 0}
-  walkSound: {fileID: 8300000, guid: 3f57754e870b15e4aa289aa14bbe2ea6, type: 3}
-  runSound: {fileID: 8300000, guid: 6591590f33ae3d94cbf0bc009a1177cd, type: 3}
+  walkSound: {fileID: 8300000, guid: 1196ed728dc5d0d40bb62c95eae89114, type: 3}
+  runSound: {fileID: 8300000, guid: 38d1b7b49262ebb45aaccae41947abd8, type: 3}
 --- !u!50 &1929369337
 Rigidbody2D:
   serializedVersion: 4
