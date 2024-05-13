@@ -11,6 +11,10 @@ public class GameSceneDoor : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.UpArrow) || (Input.GetKey(KeyCode.W)))
             {
+                PlayerPrefs.SetFloat("SpawnPointX", 5.51f);
+                PlayerPrefs.SetFloat("SpawnPointY", 4.9f);
+                PlayerPrefs.SetFloat("SpawnPointZ", 0f);
+
                 SceneManager.LoadScene("StartScene");
             }
         }
