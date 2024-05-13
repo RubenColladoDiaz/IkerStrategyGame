@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -22,16 +23,46 @@ public class Player : MonoBehaviour
     //Estoy caminando
     private bool isMove;
 
-  
+    //Declara que es la primera vez que se instancia el script
+    private bool firstTime = true;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+
+        Debug.Log(PlayerPrefs.HasKey("FirstTimeKey"));
+        // Comprueba si existe la Key de PlayerPrefs y asi saber si es el primer spawneo
+        if (PlayerPrefs.HasKey("FirstTimeKey"))
+        {
+            firstTime = PlayerPrefs.GetInt("FirstTimeKey") == 1;
+        }
+
+
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
 
         velocidadInicial = velocidadMovimiento;
+
+        //Importante para que se aplique la posicion de la puerta de salida de la tienda solo cuando la scene actual sea la inicial.
+        //Si esto no funciona correctamente, se spawnea al personaje siempre en la posicion de spawnPoint independientemente de la escena.
+        if (!firstTime && SceneManager.GetActiveScene().name == "StartScene")
+        {
+            float spawnPointX = PlayerPrefs.GetFloat("SpawnPointX");
+            float spawnPointY = PlayerPrefs.GetFloat("SpawnPointY");
+            float spawnPointZ = PlayerPrefs.GetFloat("SpawnPointZ");
+            rb.transform.position = new Vector3(spawnPointX, spawnPointY, spawnPointZ);
+        }
+
+        firstTime = false;
+        // Crea la clave FirstTimeKey y si esta no es 1 la transforma a 0, en la proxima instancia del script la clave
+        // ya existe y hace caso a nuestras posiciones de PlayerPrefs.
+        PlayerPrefs.SetInt("FirstTimeKey", firstTime ? 1 : 0);
+        PlayerPrefs.Save(); // Es importante guardar los cambios en PlayerPrefs
+
+
     }
 
     // Update is called once per frame
@@ -74,7 +105,8 @@ public class Player : MonoBehaviour
              if(!audioSource.isPlaying && isMove){
                 audioSource.clip = walkSound;
                 audioSource.Play();
-                
+                audioSource.volume = 0.25f;
+
             }
             
         } else if ((direccionMovimiento.x != 0 || direccionMovimiento.y != 0 && velocidadMovimiento == velocidadInicial * 2))
@@ -124,7 +156,13 @@ public class Player : MonoBehaviour
         //Debug.Log("Para sonido");
     }
 
-   
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
+
+
 
 
 }
