@@ -2979,8 +2979,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidadMovimiento: 5
   direccionMovimiento: {x: 0, y: 0}
-  walkSound: {fileID: 8300000, guid: 3f57754e870b15e4aa289aa14bbe2ea6, type: 3}
-  runSound: {fileID: 8300000, guid: 6591590f33ae3d94cbf0bc009a1177cd, type: 3}
+  walkSound: {fileID: 8300000, guid: 1196ed728dc5d0d40bb62c95eae89114, type: 3}
+  runSound: {fileID: 8300000, guid: 38d1b7b49262ebb45aaccae41947abd8, type: 3}
 --- !u!50 &615160971
 Rigidbody2D:
   serializedVersion: 4
@@ -3617,6 +3617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be9edddff77cfb4c9a4c794b9781684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPoint: {fileID: 0}
 --- !u!1 &1187189825
 GameObject:
   m_ObjectHideFlags: 0
@@ -4197,6 +4198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcVoice: {fileID: 8300000, guid: 77ec978550cb68540835041280f63453, type: 3}
+  npcSound: {fileID: 0}
   dialoguePanel: {fileID: 392286956}
   dialogueOmitir: {fileID: 303330286}
   oxygenPanel: {fileID: 1654347855}
